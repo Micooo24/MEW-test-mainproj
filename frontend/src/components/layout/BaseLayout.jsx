@@ -5,6 +5,8 @@ import Sidebar from "../sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 
 const BaseLayout = () => {
+  console.log(Header);
+  console.log(Sidebar);
   return (
     <PageWrapper>
       <Header />

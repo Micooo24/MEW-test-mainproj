@@ -21,8 +21,9 @@ const SideNavigationWrapper = styled.div`
   padding: 16px;
   transform: translateX(-100%);
   transition: ${defaultTheme.default_transition};
-  
+
   &.show {
+    display: block;
     transform: translateX(0);
   }
 
@@ -86,6 +87,8 @@ const Sidebar = () => {
   const isSidebarOpen = useSelector(selectIsSidebarOpen);
   const dispatch = useDispatch();
 
+
+  console.log(toggleSidebar);
   console.log(isSidebarOpen);
 
   return (

@@ -114,11 +114,13 @@ const IconLinksWrapper = styled.div`
   @media (max-width: ${breakpoints.xl}) {
     column-gap: 6px;
   }
+    
 `;
 
 const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  console.log(toggleSidebar);
 
   return (
     <HeaderMainWrapper className="header flex items-center">

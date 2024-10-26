@@ -126,11 +126,11 @@ function App() {
                 >
                   <Route index element={<Dashboard />} />
                   <Route path="team" element={<Team />} />
-                  <Route path="products" element={<Products />} />
-                  <Route path="promos" element={<Promos />} />
-                  <Route path="categories" element={<Categories />} />
+                  <Route path="/admin/products" element={<Products />} />
+                  <Route path="/admin/promos" element={<Promos />} />
+                  <Route path="/admin/categories" element={<Categories />} />
                   <Route path="users" element={<Users />} />
-                  <Route path="brands" element={<Brands />} />
+                  <Route path="/admin/brands" element={<Brands />} />
                   <Route path="contacts" element={<Contacts />} />
                   <Route path="invoices" element={<Invoices />} />
                   <Route path="form" element={<Form />} />
