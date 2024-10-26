@@ -1,8 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { GlobalStyles } from "./styles/global/GlobalStyles";
 import { Toaster } from "react-hot-toast"; 
 import { createContext, useState } from "react";
+import { Provider } from "react-redux";  // Import Provider
+import {store} from "./redux/store"; // Import your Redux store
 
 // Layouts
 import BaseLayout from "./components/layout/BaseLayout";
@@ -53,8 +55,7 @@ import {
   Brands,
 } from "./scenes";
 import { ColorModeContext, useMode } from "./theme";
-import Navbar from "./scenes";
-import SideBar from "./scenes";
+import { Navbar, SideBar } from "./scenes";
 
 export const ToggledContext = createContext(null);
 
@@ -64,90 +65,92 @@ function App() {
   const values = { toggled, setToggled };
 
   return (
-    <ToggledContext.Provider value={values}>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <GlobalStyles />
-          <Toaster position="top-right" />
-          <Router>
-            <Routes>
-              {/* Store main screens */}
-              <Route path="/home" element={<BaseLayout />}>
-                <Route index element={<Home />} />
-                <Route path="product" element={<ProductList />} />
-                <Route path="product/details" element={<ProductDetails />} />
-                <Route path="cart" element={<Cart />} />
-                <Route path="empty_cart" element={<CartEmpty />} />
-                <Route path="checkout" element={<Checkout />} />
-                <Route path="order" element={<Order />} />
-                <Route path="order_detail" element={<OrderDetail />} />
-                <Route path="wishlist" element={<WishList />} />
-                <Route path="empty_wishlist" element={<WishListEmpty />} />
-                <Route path="confirm" element={<Confirm />} />
-                <Route path="account" element={<Account />} />
-                <Route path="account/add" element={<Address />} />
-              </Route>
+    <Provider store={store}> {/* Wrap the entire app with Provider */}
+      <ToggledContext.Provider value={values}>
+        <ColorModeContext.Provider value={colorMode}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <GlobalStyles />
+            <Toaster position="top-right" />
+            <Router>
+              <Routes>
+                {/* Store main screens */}
+                <Route path="/home" element={<BaseLayout />}>
+                  <Route index element={<Home />} />
+                  <Route path="product" element={<ProductList />} />
+                  <Route path="product/details" element={<ProductDetails />} />
+                  <Route path="cart" element={<Cart />} />
+                  <Route path="empty_cart" element={<CartEmpty />} />
+                  <Route path="checkout" element={<Checkout />} />
+                  <Route path="order" element={<Order />} />
+                  <Route path="order_detail" element={<OrderDetail />} />
+                  <Route path="wishlist" element={<WishList />} />
+                  <Route path="empty_wishlist" element={<WishListEmpty />} />
+                  <Route path="confirm" element={<Confirm />} />
+                  <Route path="account" element={<Account />} />
+                  <Route path="account/add" element={<Address />} />
+                </Route>
 
-              {/* Auth screens */}
-              <Route path="/auth" element={<AuthLayout />}>
-                <Route path="sign_in" element={<SignIn />} />
-                <Route path="sign_up" element={<SignUp />} />
-                <Route path="reset" element={<Reset />} />
-                <Route path="change_password" element={<ChangePassword />} />
-                <Route path="check_mail" element={<CheckMail />} />
-                <Route path="verification" element={<Verification />} />
-              </Route>
+                {/* Auth screens */}
+                <Route path="/auth" element={<AuthLayout />}>
+                  <Route path="sign_in" element={<SignIn />} />
+                  <Route path="sign_up" element={<SignUp />} />
+                  <Route path="reset" element={<Reset />} />
+                  <Route path="change_password" element={<ChangePassword />} />
+                  <Route path="check_mail" element={<CheckMail />} />
+                  <Route path="verification" element={<Verification />} />
+                </Route>
 
-              {/* Admin screens */}
-              <Route
-                path="/admin"
-                element={
-                  <Box sx={{ display: "flex", height: "100vh", maxWidth: "100%" }}>
-                    <SideBar />
-                    <Box
-                      sx={{
-                        flexGrow: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        height: "100%",
-                        maxWidth: "100%",
-                      }}
-                    >
-                      <Navbar />
-                      <Box sx={{ overflowY: "auto", flex: 1, maxWidth: "100%" }}>
-                        <Outlet />
+                {/* Admin screens */}
+                <Route
+                  path="/admin"
+                  element={
+                    <Box sx={{ display: "flex", height: "100vh", maxWidth: "100%" }}>
+                      <SideBar />
+                      <Box
+                        sx={{
+                          flexGrow: 1,
+                          display: "flex",
+                          flexDirection: "column",
+                          height: "100%",
+                          maxWidth: "100%",
+                        }}
+                      >
+                        <Navbar />
+                        <Box sx={{ overflowY: "auto", flex: 1, maxWidth: "100%" }}>
+                          <Outlet />
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                }
-              >
-                <Route index element={<Dashboard />} />
-                <Route path="team" element={<Team />} />
-                <Route path="products" element={<Products />} />
-                <Route path="promos" element={<Promos />} />
-                <Route path="categories" element={<Categories />} />
-                <Route path="users" element={<Users />} />
-                <Route path="brands" element={<Brands />} />
-                <Route path="contacts" element={<Contacts />} />
-                <Route path="invoices" element={<Invoices />} />
-                <Route path="form" element={<Form />} />
-                <Route path="calendar" element={<Calendar />} />
-                <Route path="bar" element={<Bar />} />
-                <Route path="pie" element={<Pie />} />
-                <Route path="stream" element={<Stream />} />
-                <Route path="line" element={<Line />} />
-                <Route path="faq" element={<FAQ />} />
-                <Route path="geography" element={<Geography />} />
-              </Route>
+                  }
+                >
+                  <Route index element={<Dashboard />} />
+                  <Route path="team" element={<Team />} />
+                  <Route path="products" element={<Products />} />
+                  <Route path="promos" element={<Promos />} />
+                  <Route path="categories" element={<Categories />} />
+                  <Route path="users" element={<Users />} />
+                  <Route path="brands" element={<Brands />} />
+                  <Route path="contacts" element={<Contacts />} />
+                  <Route path="invoices" element={<Invoices />} />
+                  <Route path="form" element={<Form />} />
+                  <Route path="calendar" element={<Calendar />} />
+                  <Route path="bar" element={<Bar />} />
+                  <Route path="pie" element={<Pie />} />
+                  <Route path="stream" element={<Stream />} />
+                  <Route path="line" element={<Line />} />
+                  <Route path="faq" element={<FAQ />} />
+                  <Route path="geography" element={<Geography />} />
+                </Route>
 
-              {/* Fallback route */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Router>
-        </ThemeProvider>
-      </ColorModeContext.Provider>
-    </ToggledContext.Provider>
+                {/* Fallback route */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      </ToggledContext.Provider>
+    </Provider>
   );
 }
 
