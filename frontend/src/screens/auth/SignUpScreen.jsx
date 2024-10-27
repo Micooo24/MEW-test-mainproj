@@ -469,7 +469,7 @@ const SignUpScreen = () => {
               </form>
               <p>
                 Already have an account?{" "}
-                <Link to="/sign_in">
+                <Link to="/auth/sign_in">
                   Sign In
                 </Link>
               </p>

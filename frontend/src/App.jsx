@@ -77,7 +77,7 @@ function App() {
                 {/* Store main screens */}
                 <Route path="/home" element={<BaseLayout />}>
                   <Route index element={<Home />} />
-                  <Route path="product" element={<ProductList />} />
+                  <Route path="/home/product" element={<ProductList />} />
                   <Route path="product/details" element={<ProductDetails />} />
                   <Route path="cart" element={<Cart />} />
                   <Route path="empty_cart" element={<CartEmpty />} />

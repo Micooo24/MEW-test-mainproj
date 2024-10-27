@@ -10,6 +10,40 @@ import {
   selectIsSidebarOpen,
   toggleSidebar,
 } from "../../redux/slices/sidebarSlice";
+// import "bootstrap-icons/font/bootstrap-icons.css";
+const CloseButton = styled.button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover .line {
+    background-color: ${defaultTheme.color_sea_green};
+  }
+
+  .line {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: ${defaultTheme.color_outerspace};
+    transition: background-color 0.3s;
+  }
+
+  .line1 {
+    transform: rotate(45deg);
+  }
+
+  .line2 {
+    transform: rotate(-45deg);
+  }
+`;
 
 const SideNavigationWrapper = styled.div`
   position: fixed;
@@ -88,19 +122,15 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
 
-  console.log(toggleSidebar);
-  console.log(isSidebarOpen);
-
+ 
   return (
     <SideNavigationWrapper
       className={`bg-white h-full ${isSidebarOpen ? "show" : ""}`}
     >
-      <button
-        className="sidebar-close-btn text-3xl"
-        onClick={() => dispatch(toggleSidebar())}
-      >
-        <i className="bi bi-x-square"></i>
-      </button>
+      <CloseButton onClick={() => dispatch(toggleSidebar())}>
+        <span className="line line1"></span>
+        <span className="line line2"></span>
+      </CloseButton>
       <div className="sidenav-head">
         <SiteBrandWrapper to="/" className="inline-flex">
           <div className="brand-img-wrap flex items-center justify-center">

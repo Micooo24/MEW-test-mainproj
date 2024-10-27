@@ -9,6 +9,32 @@ import { breakpoints, defaultTheme } from "../../styles/themes/default";
 import { useDispatch } from "react-redux";
 import { toggleSidebar } from "../../redux/slices/sidebarSlice";
 
+const BurgerIcon = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-right: 20px; // Space between burger icon and logo
+
+  .bar {
+    width: 24px;
+    height: 3px;
+    background-color: ${defaultTheme.color_outerspace};
+    margin: 3px 0; // Spacing between bars
+    transition: background-color 0.3s;
+  }
+
+  &:hover .bar {
+    background-color: ${defaultTheme.color_sea_green}; // Change color on hover
+  }
+`;
+
+
 const NavigationAndSearchWrapper = styled.div`
   column-gap: 20px;
   .search-form {
@@ -120,20 +146,21 @@ const IconLinksWrapper = styled.div`
 const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  console.log(toggleSidebar);
+
 
   return (
     <HeaderMainWrapper className="header flex items-center">
       <Container className="container">
         <div className="header-wrap flex items-center justify-between">
           <div className="flex items-center">
-            <button
+          <BurgerIcon
               type="button"
-              className="sidebar-toggler"
               onClick={() => dispatch(toggleSidebar())}
             >
-              <i className="bi bi-list"></i>
-            </button>
+              <div className="bar"></div>
+              <div className="bar"></div>
+              <div className="bar"></div>
+            </BurgerIcon>
             <SiteBrandWrapper to="/" className="inline-flex">
               <div className="brand-img-wrap flex items-center justify-center">
                 <img
