@@ -161,7 +161,7 @@ const Header = () => {
               <div className="bar"></div>
               <div className="bar"></div>
             </BurgerIcon>
-            <SiteBrandWrapper to="/" className="inline-flex">
+            <SiteBrandWrapper to="/home" className="inline-flex">
               <div className="brand-img-wrap flex items-center justify-center">
                 <img
                   className="site-brand-img"
