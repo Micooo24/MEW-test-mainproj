@@ -143,7 +143,7 @@ const SignUpScreen = () => {
         });
 
         toast.success("Registration successful!");
-        navigate("/sign_in");
+        navigate("/auth/sign_in");
 
       } catch (error) {
         toast.error(error.response?.data?.message || "Registration failed");

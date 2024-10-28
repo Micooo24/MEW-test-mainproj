@@ -184,7 +184,7 @@ const SignInScreen = () => {
 
         localStorage.setItem('authToken', data.token);
         toast.success('Login successful!');
-        navigate('/');
+        navigate('/home');
       } catch (err) {
         // Log error details to help with debugging
         console.error("Login error:", err);
