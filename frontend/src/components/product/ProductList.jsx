@@ -14,19 +14,18 @@ const ProductListWrapper = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 `;
-
-const ProductList = () => {
+const ProductList = ({ products }) => {
   return (
     <ProductListWrapper className="grid">
-      {products?.map((product) => {
-        return <ProductItem key={product.id} product={product} />;
-      })}
+      {products?.map((product) => (
+        <ProductItem key={product._id} product={product} />
+      ))}
     </ProductListWrapper>
   );
 };
 
-export default ProductList;
-
 ProductList.propTypes = {
-  products: PropTypes.array,
+  products: PropTypes.array.isRequired,
 };
+
+export default ProductList;

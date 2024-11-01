@@ -1,12 +1,13 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import { Container, ContentStylings, Section } from "../../styles/styles";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import { Link } from "react-router-dom";
 import ProductList from "../../components/product/ProductList";
-import { products } from "../../data/data";
 import Title from "../../components/common/Title";
-import { breakpoints, defaultTheme } from "../../styles/themes/default";
 import ProductFilter from "../../components/product/ProductFilter";
+import { breakpoints, defaultTheme } from "../../styles/themes/default";
 
 const ProductsContent = styled.div`
   grid-template-columns: 320px auto;
@@ -87,10 +88,29 @@ const DescriptionContent = styled.div`
 `;
 
 const ProductListScreen = () => {
+  const [products, setProducts] = useState([]);
   const breadcrumbItems = [
-    { label: "Home", link: "/" },
+    { label: "Home", link: "/home" },
     { label: "Products", link: "" },
   ];
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productRes = await axios.get("http://localhost:4000/api/products/all");
+        const categoryRes = await axios.get("http://localhost:4000/api/categories/all");
+        const brandRes = await axios.get("http://localhost:4000/api/brands/all");
+        
+        // Assuming products API returns all necessary fields directly.
+        setProducts(productRes.data.products); // Adjust according to your API response format
+      } catch (error) {
+        console.error("Failed to fetch data", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <main className="page-py-spacing">
       <Container>
@@ -101,21 +121,17 @@ const ProductListScreen = () => {
           </ProductsContentLeft>
           <ProductsContentRight>
             <div className="products-right-top flex items-center justify-between">
-              <h4 className="text-xxl">Women&apos;s Clothing</h4>
+              <h4 className="text-xxl">Women's Clothing</h4>
               <ul className="products-right-nav flex items-center justify-end flex-wrap">
                 <li>
-                  <Link to="/" className="active text-lg font-semibold">
-                    New
-                  </Link>
+                  <Link to="/" className="active text-lg font-semibold">New</Link>
                 </li>
                 <li>
-                  <Link to="/" className="text-lg font-semibold">
-                    Recommended
-                  </Link>
+                  <Link to="/" className="text-lg font-semibold">Recommended</Link>
                 </li>
               </ul>
             </div>
-            <ProductList products={products.slice(0, 12)} />
+            <ProductList products={products} />
           </ProductsContentRight>
         </ProductsContent>
       </Container>
@@ -124,33 +140,7 @@ const ProductListScreen = () => {
           <DescriptionContent>
             <Title titleText={"Clothing for Everyone Online"} />
             <ContentStylings className="text-base content-stylings">
-              <h4>Reexplore Clothing Collection Online at Achats.</h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed,
-                molestiae ex atque similique consequuntur ipsum sapiente
-                inventore magni ducimus sequi nemo id, numquam officiis fugit
-                pariatur esse, totam facere ullam?
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Consequatur nam magnam placeat nesciunt ipsa amet, vel illo
-                veritatis eligendi voluptatem!
-              </p>
-              <h4>
-                One-stop Destination to Shop Every Clothing for Everyone:
-                Achats.
-              </h4>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
-                iure doloribus optio aliquid id. Quos quod delectus, dolor est
-                ab exercitationem odio quae quas qui doloremque. Esse natus
-                minima ratione reiciendis nostrum, quam, quisquam modi aut,
-                neque hic provident dolorem.
-              </p>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi
-                laborum dolorem deserunt aperiam voluptate mollitia.
-              </p>
+              {/* Description content */}
               <Link to="/">See More</Link>
             </ContentStylings>
           </DescriptionContent>

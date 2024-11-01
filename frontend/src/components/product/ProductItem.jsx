@@ -6,10 +6,6 @@ import { breakpoints, defaultTheme } from "../../styles/themes/default";
 
 const ProductCardWrapper = styled(Link)`
   ${commonCardStyles}
-  @media(max-width: ${breakpoints.sm}) {
-    padding-left: 0;
-    padding-right: 0;
-  }
 
   .product-img {
     height: 393px;
@@ -36,10 +32,15 @@ const ProductCardWrapper = styled(Link)`
 `;
 
 const ProductItem = ({ product }) => {
+  const { name, price, brand, images } = product;
   return (
-    <ProductCardWrapper key={product.id} to="/product/details">
+    <ProductCardWrapper to={`/product/${product._id}`}>
       <div className="product-img">
-        <img className="object-fit-cover" src={product.imgSource} />
+        <img
+          className="object-fit-cover"
+          src={images?.[0]?.url || "/path/to/default-image.jpg"}  // Fallback to default image if images[0] is undefined
+          alt={name}
+        />
         <button
           type="button"
           className="product-wishlist-icon flex items-center justify-center bg-white"
@@ -48,18 +49,31 @@ const ProductItem = ({ product }) => {
         </button>
       </div>
       <div className="product-info">
-        <p className="font-bold">{product.title}</p>
+        <p className="font-bold">{name}</p>
         <div className="flex items-center justify-between text-sm font-medium">
-          <span className="text-gray">{product.brand}</span>
-          <span className="text-outerspace font-bold">${product.price}</span>
+          <span className="text-gray">{product.brand?.name}</span>  {/* Display brand as string */}
+          <span className="text-outerspace font-bold">${price.toFixed(2)}</span>
         </div>
       </div>
     </ProductCardWrapper>
   );
 };
 
-export default ProductItem;
-
 ProductItem.propTypes = {
-  product: PropTypes.object,
+  product: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    brand: PropTypes.shape({
+      _id: PropTypes.string,
+      name: PropTypes.string.isRequired, // Expect brand.name here
+    }),
+    images: PropTypes.arrayOf(
+      PropTypes.shape({
+        url: PropTypes.string,
+      })
+    ),
+  }).isRequired,
 };
+
+export default ProductItem;
